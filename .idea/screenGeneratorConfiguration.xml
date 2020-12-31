@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ScreenGeneratorConfiguration">
+    <option name="settings">
+      <Settings>
+        <option name="categories">
+          <list>
+            <Category>
+              <option name="name" value="Clean Architecture" />
+            </Category>
+            <Category>
+              <option name="id" value="1" />
+              <option name="name" value="Fragment + ViewModel" />
+            </Category>
+            <Category>
+              <option name="customVariables">
+                <list>
+                  <CustomVariable>
+                    <option name="name" value="ReturnType" />
+                  </CustomVariable>
+                </list>
+              </option>
+              <option name="id" value="2" />
+              <option name="name" value="CoroutineUseCase" />
+            </Category>
+            <Category>
+              <option name="customVariables">
+                <list>
+                  <CustomVariable>
+                    <option name="name" value="ReturnType" />
+                  </CustomVariable>
+                </list>
+              </option>
+              <option name="id" value="3" />
+              <option name="name" value="FlowUseCase" />
+            </Category>
+            <Category>
+              <option name="customVariables">
+                <list>
+                  <CustomVariable>
+                    <option name="name" value="ReturnType" />
+                  </CustomVariable>
+                </list>
+              </option>
+              <option name="id" value="4" />
+              <option name="name" value="LiveDataUseCase" />
+            </Category>
+            <Category>
+              <option name="customVariables">
+                <list>
+                  <CustomVariable>
+                    <option name="name" value="ReturnType" />
+                  </CustomVariable>
+                </list>
+              </option>
+              <option name="id" value="5" />
+              <option name="name" value="LiveTaskUseCase" />
+            </Category>
+          </list>
+        </option>
+        <option name="screenElements">
+          <list>
+            <ScreenElement>
+              <option name="fileNameTemplate" value="%screenName%%screenElement%" />
+              <option name="name" value="Fragment" />
+              <option name="subdirectory" value="ui" />
+              <option name="template" value="package %packageName%.ui&#10;&#10;import android.os.Bundle&#10;import android.view.LayoutInflater&#10;import android.view.View&#10;import android.view.ViewGroup&#10;import androidx.fragment.app.Fragment&#10;import androidx.fragment.app.viewModels&#10;import %packageName%.databinding.Fragment%screenName%Binding&#10;import dagger.hilt.android.AndroidEntryPoint&#10;&#10;@AndroidEntryPoint&#10;class %screenName%%screenElement% : Fragment() {&#10;&#10;    /**do these after create screen fragment*/&#10;&#10;    /** 1.you have to add this dependency to use by viewModels()&#10;     * implementation &quot;androidx.fragment:fragment-ktx:x.x.x&quot; .*/&#10;&#10;    /** 2.enable dataBinding*/&#10;&#10;    /**&#10;     * 3.you have to config hilt first setup something like&#10;     * add hilt dependencies to gradle file&#10;     * creating app class with @HiltAndroidApp Annotation and add it to manifest&#10;     * annotate your Activity with @AndroidEntryPoint&#10;     **/&#10;&#10;    private val %screenNameLowerCase%ViewModel: %screenName%ViewModel by viewModels()&#10;&#10;    lateinit var binding: Fragment%screenName%Binding&#10;&#10;    override fun onCreateView(&#10;        inflater: LayoutInflater, container: ViewGroup?,&#10;        savedInstanceState: Bundle?&#10;    ): View {&#10;        binding = Fragment%screenName%Binding.inflate(&#10;            inflater, container, false&#10;        ).apply {&#10;            lifecycleOwner = viewLifecycleOwner&#10;            vm = %screenNameLowerCase%ViewModel&#10;        }&#10;        return binding.root&#10;    }&#10;&#10;    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {&#10;        super.onViewCreated(view, savedInstanceState)&#10;        //TODO write Super Awesome Code here :)&#10;    }&#10;}" />
+            </ScreenElement>
+            <ScreenElement>
+              <option name="fileNameTemplate" value="fragment_%screenNameSnakeCase%" />
+              <option name="fileType" value="Layout XML" />
+              <option name="name" value="layout" />
+              <option name="template" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&#10;&#10;&lt;layout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;&#10;&#10;    &lt;data&gt;&#10;        &lt;variable&#10;            name=&quot;vm&quot;&#10;            type=&quot;%packageName%.ui.%screenName%ViewModel&quot; /&gt;&#10;    &lt;/data&gt;&#10;&#10;    &lt;androidx.constraintlayout.widget.ConstraintLayout&#10;        android:layout_width=&quot;match_parent&quot;&#10;        android:layout_height=&quot;match_parent&quot;&gt;&#10;&#10;&#10;    &lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;&#10;&lt;/layout&gt;" />
+            </ScreenElement>
+            <ScreenElement>
+              <option name="fileNameTemplate" value="%screenName%%screenElement%" />
+              <option name="name" value="ViewModel" />
+              <option name="subdirectory" value="ui" />
+              <option name="template" value="package %packageName%.ui&#10;&#10;import androidx.lifecycle.ViewModel&#10;import %packageName%.domain.%screenName%UseCase&#10;import androidx.hilt.lifecycle.ViewModelInject&#10;&#10;class %screenName%%screenElement% @ViewModelInject constructor(&#10;private val %screenNameLowerCase%UseCase: %screenName%UseCase&#10;): ViewModel(){&#10;&#10;}" />
+            </ScreenElement>
+            <ScreenElement>
+              <option name="fileNameTemplate" value="%screenName%%screenElement%" />
+              <option name="name" value="UseCase" />
+              <option name="subdirectory" value="domain" />
+              <option name="template" value="package %packageName%.domain&#10;&#10;import %packageName%.data.%screenName%Repository&#10;import javax.inject.Inject&#10;&#10;class %screenName%%screenElement% @Inject constructor(&#10;private val %screenNameLowerCase%Repository: %screenName%Repository&#10;) {&#10;    operator fun invoke() {&#10;&#10;    }&#10;}&#10;" />
+            </ScreenElement>
+            <ScreenElement>
+              <option name="fileNameTemplate" value="%screenName%%screenElement%" />
+              <option name="name" value="Repository" />
+              <option name="subdirectory" value="data" />
+              <option name="template" value="package %packageName%.data&#10;&#10;interface %screenName%%screenElement% {&#10;    fun %screenNameLowerCase%Fun(): String&#10;}&#10;" />
+            </ScreenElement>
+            <ScreenElement>
+              <option name="fileNameTemplate" value="%screenName%%screenElement%" />
+              <option name="name" value="RepositoryImpl" />
+              <option name="subdirectory" value="data" />
+              <option name="template" value="package %packageName%.data&#10;&#10;import javax.inject.Inject&#10;&#10;class %screenName%%screenElement% @Inject constructor(&#10;    private val %screenNameLowerCase%LocalDataSource: %screenName%LocalDataSource,&#10;    private val %screenNameLowerCase%RemoteDataSource: %screenName%RemoteDataSource&#10;): %screenName%Repository {&#10;    override fun %screenNameLowerCase%Fun() = &quot;Hello World&quot;&#10;}" />
+            </ScreenElement>
+            <ScreenElement>
+              <option name="fileNameTemplate" value="%screenName%%screenElement%" />
+              <option name="name" value="LocalDataSource" />
+              <option name="subdirectory" value="data" />
+              <option name="template" value="package %packageName%.data&#10;&#10;interface %screenName%%screenElement% {&#10;    fun %screenNameLowerCase%(): Unit&#10;}" />
+            </ScreenElement>
+            <ScreenElement>
+              <option name="fileNameTemplate" value="%screenName%%screenElement%" />
+              <option name="name" value="LocalDataSourceImpl" />
+              <option name="subdirectory" value="data" />
+              <option name="template" value="package %packageName%.data&#10;&#10;class %screenName%%screenElement% : %screenName%LocalDataSource {&#10;&#10;    override fun %screenNameLowerCase%() {&#10;&#10;    }&#10;}" />
+            </ScreenElement>
+            <ScreenElement>
+              <option name="fileNameTemplate" value="%screenName%%screenElement%" />
+              <option name="name" value="RemoteDataSource" />
+              <option name="subdirectory" value="data" />
+              <option name="template" value="package %packageName%.data&#10;&#10;interface %screenName%%screenElement% {&#10;    fun %screenNameLowerCase%(): Unit&#10;}" />
+            </ScreenElement>
+            <ScreenElement>
+              <option name="fileNameTemplate" value="%screenName%%screenElement%" />
+              <option name="name" value="RemoteDataSourceImpl" />
+              <option name="subdirectory" value="data" />
+              <option name="template" value="package %packageName%.data&#10;&#10;class %screenName%%screenElement% : %screenName%RemoteDataSource {&#10;&#10;    override fun %screenNameLowerCase%() {&#10;&#10;    }&#10;}" />
+            </ScreenElement>
+            <ScreenElement>
+              <option name="fileNameTemplate" value="%screenName%%screenElement%" />
+              <option name="name" value="Module" />
+              <option name="subdirectory" value="di" />
+              <option name="template" value="package %packageName%.di&#10;&#10;import %packageName%.data.*&#10;import dagger.Module&#10;import dagger.Provides&#10;import dagger.hilt.InstallIn&#10;import dagger.hilt.components.SingletonComponent&#10;import javax.inject.Singleton&#10;&#10;&#10;@InstallIn(SingletonComponent::class)&#10;@Module&#10;&#10;class %screenName%%screenElement% {&#10;&#10;    @Singleton&#10;    @Provides&#10;    fun provide%screenName%LocalDataSource(): %screenName%LocalDataSource = %screenName%LocalDataSourceImpl()&#10;&#10;    @Singleton&#10;    @Provides&#10;    fun provide%screenName%RemoteDataSource(): %screenName%RemoteDataSource =&#10;    %screenName%RemoteDataSourceImpl()&#10;&#10;    @Singleton&#10;    @Provides&#10;    fun provide%screenName%Repository(&#10;    localDataSource: %screenName%LocalDataSource,&#10;    remoteDataSource: %screenName%RemoteDataSource&#10;    ): %screenName%Repository =&#10;    %screenName%RepositoryImpl(localDataSource, remoteDataSource)&#10;}" />
+            </ScreenElement>
+            <ScreenElement>
+              <option name="categoryId" value="1" />
+              <option name="fileNameTemplate" value="%screenName%%screenElement%" />
+              <option name="name" value="Fragment" />
+              <option name="subdirectory" value="ui" />
+              <option name="template" value="package %packageName%.ui&#10;&#10;import android.os.Bundle&#10;import android.view.LayoutInflater&#10;import android.view.View&#10;import android.view.ViewGroup&#10;import androidx.fragment.app.Fragment&#10;import androidx.fragment.app.viewModels&#10;import %packageName%.databinding.Fragment%screenName%Binding&#10;import dagger.hilt.android.AndroidEntryPoint&#10;&#10;@AndroidEntryPoint&#10;class %screenName%%screenElement% : Fragment() {&#10;&#10;    /**do these after create screen fragment*/&#10;&#10;    /** 1.you have to add this dependency to use by viewModels()&#10;     * implementation &quot;androidx.fragment:fragment-ktx:x.x.x&quot; .*/&#10;&#10;    /** 2.enable dataBinding*/&#10;&#10;    /**&#10;     * 3.you have to config hilt first setup something like&#10;     * add hilt dependencies to gradle file&#10;     * creating app class with @HiltAndroidApp Annotation and add it to manifest&#10;     * annotate your Activity with @AndroidEntryPoint&#10;     **/&#10;&#10;    private val %screenNameLowerCase%ViewModel: %screenName%ViewModel by viewModels()&#10;&#10;    lateinit var binding: Fragment%screenName%Binding&#10;&#10;    override fun onCreateView(&#10;        inflater: LayoutInflater, container: ViewGroup?,&#10;        savedInstanceState: Bundle?&#10;    ): View {&#10;        binding = Fragment%screenName%Binding.inflate(&#10;            inflater, container, false&#10;        ).apply {&#10;            lifecycleOwner = viewLifecycleOwner&#10;            vm = %screenNameLowerCase%ViewModel&#10;        }&#10;        return binding.root&#10;    }&#10;&#10;    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {&#10;        super.onViewCreated(view, savedInstanceState)&#10;        //TODO write Super Awesome Code here :)&#10;    }&#10;}" />
+            </ScreenElement>
+            <ScreenElement>
+              <option name="categoryId" value="1" />
+              <option name="fileNameTemplate" value="fragment_%screenNameSnakeCase%" />
+              <option name="fileType" value="Layout XML" />
+              <option name="name" value="layout" />
+              <option name="template" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;&#10;&#10;&lt;layout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;&gt;&#10;&#10;    &lt;data&gt;&#10;        &lt;variable&#10;            name=&quot;vm&quot;&#10;            type=&quot;%packageName%.ui.%screenName%ViewModel&quot; /&gt;&#10;    &lt;/data&gt;&#10;&#10;    &lt;androidx.constraintlayout.widget.ConstraintLayout&#10;        android:layout_width=&quot;match_parent&quot;&#10;        android:layout_height=&quot;match_parent&quot;&gt;&#10;&#10;&#10;    &lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;&#10;&lt;/layout&gt;" />
+            </ScreenElement>
+            <ScreenElement>
+              <option name="categoryId" value="1" />
+              <option name="fileNameTemplate" value="%screenName%%screenElement%" />
+              <option name="name" value="ViewModel" />
+              <option name="subdirectory" value="ui" />
+              <option name="template" value="package %packageName%.ui&#10;&#10;import androidx.lifecycle.ViewModel&#10;import androidx.hilt.lifecycle.ViewModelInject&#10;&#10;class %screenName%%screenElement% @ViewModelInject constructor() : ViewModel() {&#10;//TODO&#10;}" />
+            </ScreenElement>
+            <ScreenElement>
+              <option name="categoryId" value="2" />
+              <option name="fileNameTemplate" value="%screenName%%screenElement%" />
+              <option name="name" value="UseCase" />
+              <option name="template" value="package %packageName%.domain&#10;&#10;import %packageName%.core.IoDispatcher&#10;import %packageName%.core.usecases.CoroutineUseCase&#10;import kotlinx.coroutines.CoroutineDispatcher&#10;import javax.inject.Inject&#10;&#10;class %screenName%%screenElement% @Inject constructor(&#10;    @IoDispatcher private val coroutineDispatcher: CoroutineDispatcher&#10;) : CoroutineUseCase&lt;Int, List&lt;%ReturnType%&gt;&gt;(coroutineDispatcher) {&#10;    override suspend fun execute(parameters: Int): List&lt;%ReturnType%&gt; {&#10;        &#10;    }&#10;}" />
+            </ScreenElement>
+            <ScreenElement>
+              <option name="categoryId" value="3" />
+              <option name="fileNameTemplate" value="%screenName%%screenElement%" />
+              <option name="name" value="UseCase" />
+              <option name="template" value="package %packageName%&#10;&#10;import %packageName%.core.IoDispatcher&#10;import %packageName%.core.usecases.FlowUseCase&#10;import kotlinx.coroutines.CoroutineDispatcher&#10;import javax.inject.Inject&#10;&#10;class %screenName%%screenElement% @Inject constructor(&#10;    @IoDispatcher private val coroutineDispatcher: CoroutineDispatcher&#10;) : FlowUseCase&lt;Int, %ReturnType%&gt;(coroutineDispatcher) {&#10;    override suspend fun execute(params: Int) {&#10;        &#10;    }&#10;}" />
+            </ScreenElement>
+            <ScreenElement>
+              <option name="categoryId" value="4" />
+              <option name="fileNameTemplate" value="%screenName%%screenElement%" />
+              <option name="name" value="UseCase" />
+              <option name="template" value="package %packageName%&#10;&#10;import androidx.lifecycle.LiveData&#10;import %packageName%.core.IoDispatcher&#10;import %packageName%.core.usecases.LiveDataUseCase&#10;import kotlinx.coroutines.CoroutineDispatcher&#10;import javax.inject.Inject&#10;&#10;class %screenName%%screenElement% @Inject constructor(&#10;    @IoDispatcher private val coroutineDispatcher: CoroutineDispatcher&#10;) : LiveDataUseCase&lt;Int, %ReturnType%&gt;(coroutineDispatcher) {&#10;&#10;    override fun execute(parameters: Int): LiveData&lt;%ReturnType%&gt; {&#10;        &#10;    }&#10;}" />
+            </ScreenElement>
+            <ScreenElement>
+              <option name="categoryId" value="5" />
+              <option name="fileNameTemplate" value="%screenName%%screenElement%" />
+              <option name="name" value="UseCase" />
+              <option name="template" value="package %packageName%&#10;&#10;import com.example.template.core.IoDispatcher&#10;import com.example.template.core.usecases.LiveTaskUseCase&#10;import kotlinx.coroutines.CoroutineDispatcher&#10;import javax.inject.Inject&#10;&#10;class %screenName%%screenElement% @Inject constructor(&#10;    @IoDispatcher private val coroutineDispatcher: CoroutineDispatcher&#10;) : LiveTaskUseCase&lt;Int, %ReturnType%&gt;(coroutineDispatcher) {&#10;&#10;    override suspend fun execute(params: Int): %ReturnType% {&#10;        &#10;    }&#10;&#10;}" />
+            </ScreenElement>
+          </list>
+        </option>
+      </Settings>
+    </option>
+  </component>
+</project>
