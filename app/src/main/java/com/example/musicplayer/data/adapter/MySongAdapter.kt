@@ -3,6 +3,8 @@ package com.example.musicplayer.data.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musicplayer.R
 import com.example.musicplayer.domain.SongInfo
@@ -15,9 +17,7 @@ class MySongAdapter(
 
     class MyViewHolder(var binding: SongCardBinding) : RecyclerView.ViewHolder(binding.root)
 
-    init {
-
-    }
+    lateinit var song: SongInfo
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val binding: SongCardBinding = DataBindingUtil.inflate(
@@ -26,12 +26,20 @@ class MySongAdapter(
         )
 
         binding.cvSong.setOnClickListener {
-
+            onItemClickListener?.let { click ->
+                click(song)
+            }
         }
 
         return MyViewHolder(
             binding
         )
+    }
+
+    protected var onItemClickListener: ((SongInfo) -> Unit)? = null
+
+    fun setItemClickListener(listener: (SongInfo) -> Unit) {
+        onItemClickListener = listener
     }
 
     override fun getItemCount() =
@@ -40,6 +48,7 @@ class MySongAdapter(
 
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        song = myListSong[position]
         holder.binding.song = myListSong[position]
     }
 

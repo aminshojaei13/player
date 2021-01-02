@@ -1,6 +1,8 @@
 package com.example.musicplayer.service
 
+import android.app.Activity
 import android.app.PendingIntent
+import android.content.Intent
 import android.media.browse.MediaBrowser
 import android.media.session.MediaSession
 import android.os.Bundle
@@ -8,6 +10,8 @@ import android.service.media.MediaBrowserService
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import com.example.musicplayer.exoplayer.MusicNotificationManager
 import com.example.musicplayer.exoplayer.MusicSource
 import com.example.musicplayer.exoplayer.callback.MusicPlaybackPreparer
@@ -21,6 +25,7 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 
 private const val MEDIA_TAG = "MusicService"
@@ -44,9 +49,7 @@ class MusicService : MediaBrowserService() {
 
     private lateinit var mediaSession: MediaSessionCompat
 
-    private lateinit var mediaSession2: MediaSession.Token
-
-    private lateinit var mediaSessionConnector: MediaSessionConnector
+      private var mediaSessionConnector by Delegates.notNull<MediaSessionConnector>()
 
     private lateinit var musicNotificationManager: MusicNotificationManager
 
@@ -63,6 +66,7 @@ class MusicService : MediaBrowserService() {
             private set
     }
 
+
     override fun onCreate() {
         super.onCreate()
 
@@ -78,7 +82,9 @@ class MusicService : MediaBrowserService() {
             setSessionActivity(activityIntent)
             isActive = true
         }
-        sessionToken = mediaSession2
+
+
+        sessionToken = mediaSession.sessionToken.token as MediaSession.Token
 
         musicNotificationManager = MusicNotificationManager(
             this,

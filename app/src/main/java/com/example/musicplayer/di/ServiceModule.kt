@@ -2,6 +2,7 @@ package com.example.musicplayer.di
 
 import android.content.Context
 import com.example.musicplayer.data.repository.SongRepository
+import com.example.musicplayer.exoplayer.MusicServiceConnection
 import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.audio.AudioAttributes
@@ -19,7 +20,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(ServiceComponent::class)
 object ServiceModule {
-
 
     @ServiceScoped
     @Provides

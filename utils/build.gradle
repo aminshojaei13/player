@@ -82,11 +82,9 @@ dependencies {
     api 'com.google.firebase:firebase-storage:19.2.1'
 
     //exoplayer
-    api 'com.google.android.exoplayer:exoplayer:2.12.2'
-    api 'com.google.android.exoplayer:exoplayer-core:2.12.2'
-    api 'com.google.android.exoplayer:exoplayer-dash:2.12.2'
-    api 'com.google.android.exoplayer:exoplayer-ui:2.12.2'
-    api 'com.google.android.exoplayer:extension-mediasession:2.11.8'
+    api "com.google.android.exoplayer:exoplayer-core:2.11.8"
+    api "com.google.android.exoplayer:exoplayer-ui:2.11.8"
+    api "com.google.android.exoplayer:extension-mediasession:2.11.8"
 
     //picasso
     api 'com.squareup.picasso:picasso:2.71828'

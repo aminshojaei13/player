@@ -1,12 +1,11 @@
 package com.example.musicplayer.presentation.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.example.musicplayer.R
 import com.example.musicplayer.data.adapter.MySongAdapter
 import com.example.musicplayer.presentation.viemodels.SongsViewModel
@@ -17,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_select_song.*
 class SelectSongFragment : Fragment() {
 
     // lateinit var songsViewModel: SongsViewModel
-    private val songsViewModel: SongsViewModel by viewModels()
+    private val songsViewModel: SongsViewModel by activityViewModels()
 
     var mySongAdapter: MySongAdapter? = null
 
@@ -45,6 +44,10 @@ class SelectSongFragment : Fragment() {
             MySongAdapter(value!!)
         rv_song.apply {
             adapter = mySongAdapter
+        }
+
+        mySongAdapter!!.setItemClickListener {
+            songsViewModel.playOrToggleSong(it)
         }
 
 

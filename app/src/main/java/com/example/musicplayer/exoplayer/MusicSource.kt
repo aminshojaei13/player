@@ -6,7 +6,10 @@ import android.support.v4.media.MediaBrowserCompat.MediaItem.FLAG_PLAYABLE
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import androidx.core.net.toUri
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.musicplayer.data.repository.SongRepository
+import com.example.musicplayer.domain.SongInfo
 import com.example.musicplayer.exoplayer.State.*
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
@@ -19,22 +22,23 @@ class MusicSource @Inject constructor(
     private val songRepository: SongRepository
 ){
 
+    var loadSong = songRepository.allSongs
     var songs = emptyList<MediaMetadataCompat>()
 
     suspend fun fetchMediaData() = withContext(Dispatchers.IO) {
         state = STATE_INITIALIZING
         val allSongs = songRepository.songList
-        songs = allSongs!!.map { song ->
-            MediaMetadataCompat.Builder()
-                .putString(METADATA_KEY_ARTIST, song.Author)
-                .putString(METADATA_KEY_MEDIA_ID, song.mediaId)
-                .putString(METADATA_KEY_TITLE, song.title)
-                .putString(METADATA_KEY_DISPLAY_TITLE, song.title)
-                .putString(METADATA_KEY_MEDIA_URI, song.songUrl)
-                .putString(METADATA_KEY_DISPLAY_SUBTITLE, song.Author)
-                .putString(METADATA_KEY_DISPLAY_DESCRIPTION, song.Author)
-                .build()
-        }
+            songs = allSongs!!.map { song ->
+                MediaMetadataCompat.Builder()
+                    .putString(METADATA_KEY_ARTIST, song.Author)
+                    .putString(METADATA_KEY_MEDIA_ID, song.mediaId)
+                    .putString(METADATA_KEY_TITLE, song.title)
+                    .putString(METADATA_KEY_DISPLAY_TITLE, song.title)
+                    .putString(METADATA_KEY_MEDIA_URI, song.songUrl)
+                    .putString(METADATA_KEY_DISPLAY_SUBTITLE, song.Author)
+                    .putString(METADATA_KEY_DISPLAY_DESCRIPTION, song.Author)
+                    .build()
+            }
         state = STATE_INITIALIZED
     }
 
