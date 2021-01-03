@@ -2,17 +2,18 @@ package com.example.musicplayer.data.repository
 
 import android.content.ContentResolver
 import android.database.Cursor
+import android.media.MediaMetadata
 import android.provider.MediaStore
-import androidx.lifecycle.MutableLiveData
+import android.provider.MediaStore.Audio.AlbumColumns.ALBUM_ART
 import com.example.musicplayer.domain.SongInfo
 import javax.inject.Inject
 
-class SongRepository @Inject constructor(){
+class SongRepository @Inject constructor() {
 
     var songList = mutableListOf<SongInfo>()
-    var allSongs = MutableLiveData<MutableList<SongInfo>>()
+    var allSongs = mutableListOf<SongInfo>()
 
-    suspend fun getAllMusicFromStorage(contentResolver: ContentResolver) {
+    fun getAllMusicFromStorage(contentResolver: ContentResolver): MutableList<SongInfo> {
         val songUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         val songCursor: Cursor? = contentResolver.query(songUri, null, null, null, null)
 
@@ -36,7 +37,8 @@ class SongRepository @Inject constructor(){
                     )
                 )
             }
-            allSongs.postValue(songList)
+            allSongs.addAll(songList)
         }
+        return allSongs
     }
 }

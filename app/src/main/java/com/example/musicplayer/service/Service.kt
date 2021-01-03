@@ -1,8 +1,6 @@
 package com.example.musicplayer.service
 
-import android.app.Activity
 import android.app.PendingIntent
-import android.content.Intent
 import android.media.browse.MediaBrowser
 import android.media.session.MediaSession
 import android.os.Bundle
@@ -10,8 +8,6 @@ import android.service.media.MediaBrowserService
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import com.example.musicplayer.exoplayer.MusicNotificationManager
 import com.example.musicplayer.exoplayer.MusicSource
 import com.example.musicplayer.exoplayer.callback.MusicPlaybackPreparer
@@ -49,7 +45,7 @@ class MusicService : MediaBrowserService() {
 
     private lateinit var mediaSession: MediaSessionCompat
 
-      private var mediaSessionConnector by Delegates.notNull<MediaSessionConnector>()
+    private var mediaSessionConnector by Delegates.notNull<MediaSessionConnector>()
 
     private lateinit var musicNotificationManager: MusicNotificationManager
 
@@ -71,7 +67,7 @@ class MusicService : MediaBrowserService() {
         super.onCreate()
 
         serviceScope.launch {
-            musicSource.fetchMediaData()
+            musicSource.fetchMediaData(contentResolver)
         }
 
         val activityIntent = packageManager?.getLaunchIntentForPackage(packageName)?.let {

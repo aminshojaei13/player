@@ -1,15 +1,13 @@
 package com.example.musicplayer.exoplayer
 
+import android.content.ContentResolver
 import android.media.MediaMetadata.*
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaBrowserCompat.MediaItem.FLAG_PLAYABLE
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import androidx.core.net.toUri
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.musicplayer.data.repository.SongRepository
-import com.example.musicplayer.domain.SongInfo
 import com.example.musicplayer.exoplayer.State.*
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
@@ -20,25 +18,24 @@ import javax.inject.Inject
 
 class MusicSource @Inject constructor(
     private val songRepository: SongRepository
-){
+) {
 
-    var loadSong = songRepository.allSongs
     var songs = emptyList<MediaMetadataCompat>()
 
-    suspend fun fetchMediaData() = withContext(Dispatchers.IO) {
+    suspend fun fetchMediaData(contentResolver: ContentResolver) = withContext(Dispatchers.IO) {
         state = STATE_INITIALIZING
-        val allSongs = songRepository.songList
-            songs = allSongs!!.map { song ->
-                MediaMetadataCompat.Builder()
-                    .putString(METADATA_KEY_ARTIST, song.Author)
-                    .putString(METADATA_KEY_MEDIA_ID, song.mediaId)
-                    .putString(METADATA_KEY_TITLE, song.title)
-                    .putString(METADATA_KEY_DISPLAY_TITLE, song.title)
-                    .putString(METADATA_KEY_MEDIA_URI, song.songUrl)
-                    .putString(METADATA_KEY_DISPLAY_SUBTITLE, song.Author)
-                    .putString(METADATA_KEY_DISPLAY_DESCRIPTION, song.Author)
-                    .build()
-            }
+        val allSongs = songRepository.getAllMusicFromStorage(contentResolver)
+        songs = allSongs!!.map { song ->
+            MediaMetadataCompat.Builder()
+                .putString(METADATA_KEY_ARTIST, song.Author)
+                .putString(METADATA_KEY_MEDIA_ID, song.mediaId)
+                .putString(METADATA_KEY_TITLE, song.title)
+                .putString(METADATA_KEY_DISPLAY_TITLE, song.title)
+                .putString(METADATA_KEY_MEDIA_URI, song.songUrl)
+                .putString(METADATA_KEY_DISPLAY_SUBTITLE, song.Author)
+                .putString(METADATA_KEY_DISPLAY_DESCRIPTION, song.Author)
+                .build()
+        }
         state = STATE_INITIALIZED
     }
 
@@ -67,7 +64,7 @@ class MusicSource @Inject constructor(
 
     private var state: State = STATE_CREATED
         set(value) {
-            if(value == STATE_INITIALIZED || value == STATE_ERROR) {
+            if (value == STATE_INITIALIZED || value == STATE_ERROR) {
                 synchronized(onReadyListeners) {
                     field = value
                     onReadyListeners.forEach { listener ->
@@ -80,7 +77,7 @@ class MusicSource @Inject constructor(
         }
 
     fun whenReady(action: (Boolean) -> Unit): Boolean {
-        if(state == STATE_CREATED || state == STATE_INITIALIZING) {
+        if (state == STATE_CREATED || state == STATE_INITIALIZING) {
             onReadyListeners += action
             return false
         } else {
