@@ -51,7 +51,7 @@ class SongsViewModel @ViewModelInject constructor(
 
     fun playOrToggleSong(mediaItem: SongInfo, toggle: Boolean = false) {
         val isPrepared = playbackState.value?.isPrepared ?: false
-        if(isPrepared && mediaItem.mediaId ==
+        if(isPrepared && mediaItem.mediaId.toString() ==
             curPlayingSong.value?.getString(MediaMetadataCompat.METADATA_KEY_MEDIA_ID)) {
             playbackState.value?.let { playbackState ->
                 when {
@@ -61,7 +61,7 @@ class SongsViewModel @ViewModelInject constructor(
                 }
             }
         } else {
-            musicServiceConnection.transportControls.playFromMediaId(mediaItem.mediaId, null)
+            musicServiceConnection.transportControls.playFromMediaId(mediaItem.mediaId.toString(), null)
         }
     }
 

@@ -3,12 +3,10 @@ package com.example.musicplayer.data.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.musicplayer.R
-import com.example.musicplayer.domain.SongInfo
 import com.example.musicplayer.databinding.SongCardBinding
+import com.example.musicplayer.domain.SongInfo
 
 
 class MySongAdapter(

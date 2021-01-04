@@ -28,12 +28,14 @@ class MusicSource @Inject constructor(
         songs = allSongs!!.map { song ->
             MediaMetadataCompat.Builder()
                 .putString(METADATA_KEY_ARTIST, song.Author)
-                .putString(METADATA_KEY_MEDIA_ID, song.mediaId)
+                .putString(METADATA_KEY_MEDIA_ID, song.mediaId.toString())
                 .putString(METADATA_KEY_TITLE, song.title)
                 .putString(METADATA_KEY_DISPLAY_TITLE, song.title)
                 .putString(METADATA_KEY_MEDIA_URI, song.songUrl)
                 .putString(METADATA_KEY_DISPLAY_SUBTITLE, song.Author)
                 .putString(METADATA_KEY_DISPLAY_DESCRIPTION, song.Author)
+                .putString(METADATA_KEY_DISPLAY_ICON_URI, song.songImage.toString())
+                .putString(METADATA_KEY_ALBUM_ART_URI, song.songImage.toString())
                 .build()
         }
         state = STATE_INITIALIZED
