@@ -19,8 +19,12 @@ class SongRepository @Inject constructor() {
     fun getAllMusicFromStorage(contentResolver: ContentResolver): MutableList<SongInfo> {
 
         val songUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-        val songCursor: Cursor? = contentResolver.query(songUri, null, null, null, null)
-
+        val songCursor: Cursor? = contentResolver.query(
+            songUri,
+            null,
+            MediaStore.Audio.Media.IS_MUSIC + " = 1",
+            null, null
+        )
 
 
         if (songCursor != null) {
@@ -32,13 +36,15 @@ class SongRepository @Inject constructor() {
                 val author =
                     songCursor.getString(songCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST))
                 val mediaId =
-                    songCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID).toLong()
-                Log.i("bang", "musicId: $mediaId")
-                val image = getAlbumArt(mediaId)
-                Log.i("bang", "musicImage: $image")
+                    songCursor.getString(songCursor.getColumnIndex(MediaStore.Audio.Media._ID))
+                val albumId =
+                    songCursor.getLong(songCursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID))
+                val image = getAlbumArt(albumId)
+                Log.i("bang", "albumId: $albumId")
                 songList.add(
                     SongInfo(
                         mediaId = mediaId,
+                        albumId = albumId,
                         title = title,
                         Author = author,
                         songUrl = url,
@@ -47,6 +53,7 @@ class SongRepository @Inject constructor() {
                 )
             }
             allSongs.addAll(songList)
+//            Log.i("bang", "musicId: $allSongs")
         }
         return allSongs
     }
