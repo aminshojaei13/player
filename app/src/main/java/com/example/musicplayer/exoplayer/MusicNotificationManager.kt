@@ -36,7 +36,7 @@ class MusicNotificationManager(
             DescriptionAdapter(mediaController),
             notificationListener
         ).apply {
-            setSmallIcon(R.drawable.ic_baseline_music_note_24)
+            setSmallIcon(R.drawable.ic_music)
             setMediaSessionToken(sessionToken)
         }
     }
@@ -68,6 +68,7 @@ class MusicNotificationManager(
         ): Bitmap? {
             Glide.with(context).asBitmap()
                 .load(mediaController.metadata.description.iconUri)
+                .placeholder(R.drawable.ic_play)
                 .into(object : CustomTarget<Bitmap>() {
                     override fun onResourceReady(
                         resource: Bitmap,

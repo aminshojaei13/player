@@ -32,7 +32,7 @@ class SongRepository @Inject constructor() {
                 val url =
                     songCursor.getString(songCursor.getColumnIndex(MediaStore.Audio.Media.DATA))
                 val title =
-                    songCursor.getString(songCursor.getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME))
+                    songCursor.getString(songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE))
                 val author =
                     songCursor.getString(songCursor.getColumnIndex(MediaStore.Audio.Media.ARTIST))
                 val mediaId =
@@ -57,6 +57,7 @@ class SongRepository @Inject constructor() {
         }
         return allSongs
     }
+
 
     private fun getAlbumArt(albumId:Long): Uri? {
         return try {

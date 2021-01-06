@@ -2,10 +2,12 @@ package com.example.musicplayer.exoplayer
 
 import android.content.ContentResolver
 import android.media.MediaMetadata.*
+import android.os.Build
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaBrowserCompat.MediaItem.FLAG_PLAYABLE
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
+import androidx.annotation.RequiresApi
 import androidx.core.net.toUri
 import com.example.musicplayer.data.repository.SongRepository
 import com.example.musicplayer.exoplayer.State.*
@@ -25,7 +27,7 @@ class MusicSource @Inject constructor(
     suspend fun fetchMediaData(contentResolver: ContentResolver) = withContext(Dispatchers.IO) {
         state = STATE_INITIALIZING
         val allSongs = songRepository.getAllMusicFromStorage(contentResolver)
-        songs = allSongs!!.map { song ->
+        songs = allSongs.map { song ->
             MediaMetadataCompat.Builder()
                 .putString(METADATA_KEY_ARTIST, song.Author)
                 .putString(METADATA_KEY_MEDIA_ID, song.mediaId.toString())
@@ -79,12 +81,12 @@ class MusicSource @Inject constructor(
         }
 
     fun whenReady(action: (Boolean) -> Unit): Boolean {
-        if (state == STATE_CREATED || state == STATE_INITIALIZING) {
+        return if (state == STATE_CREATED || state == STATE_INITIALIZING) {
             onReadyListeners += action
-            return false
+            false
         } else {
             action(state == STATE_INITIALIZED)
-            return true
+            true
         }
     }
 }

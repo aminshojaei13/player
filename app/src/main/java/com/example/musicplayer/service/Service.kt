@@ -1,13 +1,16 @@
 package com.example.musicplayer.service
 
 import android.app.PendingIntent
+import android.content.Intent
 import android.media.browse.MediaBrowser
 import android.media.session.MediaSession
+import android.os.Build
 import android.os.Bundle
 import android.service.media.MediaBrowserService
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
+import androidx.annotation.RequiresApi
 import com.example.musicplayer.exoplayer.MusicNotificationManager
 import com.example.musicplayer.exoplayer.MusicSource
 import com.example.musicplayer.exoplayer.callback.MusicPlaybackPreparer
@@ -61,6 +64,7 @@ class MusicService : MediaBrowserService() {
         var curSongDuration = 0L
             private set
     }
+
 
 
     override fun onCreate() {
@@ -131,12 +135,18 @@ class MusicService : MediaBrowserService() {
         player.playWhenReady = playNow
     }
 
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        super.onTaskRemoved(rootIntent)
+        player.stop()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         serviceScope.cancel()
         player.removeListener(musicPlayerEventListener)
         player.release()
     }
+
 
     override fun onLoadChildren(
         parentId: String,
@@ -171,7 +181,7 @@ class MusicService : MediaBrowserService() {
         clientPackageName: String,
         clientUid: Int,
         rootHints: Bundle?
-    ): BrowserRoot? {
+    ): BrowserRoot {
         return BrowserRoot(MEDIA_ROOT_ID, null)
     }
 }

@@ -8,92 +8,141 @@
 
     <ImageView
         android:id="@+id/play_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
         android:layout_marginTop="@dimen/_20sdp"
-        android:layout_marginEnd="@dimen/_40sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
         android:src="@drawable/ic_baseline_playlist_play_24"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
+        android:contentDescription="@string/list" />
 
     <ImageView
-        android:id="@+id/iv_music"
-        android:layout_width="@dimen/_250sdp"
-        android:layout_height="@dimen/_250sdp"
-        android:background="@drawable/circular_image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/guideline_1" />
+        android:id="@+id/file"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:src="@drawable/ic_baseline_create_new_folder_24"
+        app:layout_constraintEnd_toStartOf="@id/play_list"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/file" />
+
+    <TextView
+        android:id="@+id/song_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_5sdp"
+        app:layout_constraintBottom_toTopOf="@id/card_iv_music"
+        app:layout_constraintEnd_toEndOf="@id/card_iv_music"
+        app:layout_constraintStart_toStartOf="@id/card_iv_music" />
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cv_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/card_iv_music"
+        android:layout_width="@dimen/_250sdp"
+        android:layout_height="@dimen/_250sdp"
+        app:cardCornerRadius="@dimen/_10sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_music">
+        app:layout_constraintTop_toBottomOf="@id/guideline_1">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <ImageView
+            android:id="@+id/iv_music"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_seek_back"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_margin="@dimen/_5sdp"
-                app:backgroundTint="@color/btn"
-                android:background="@drawable/ic_baseline_replay_5_24" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_previous"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_margin="@dimen/_5sdp"
-                app:backgroundTint="@color/btn"
-                android:background="@drawable/ic_baseline_skip_previous_24" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_paly_pause"
-                android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_margin="@dimen/_5sdp"
-                app:backgroundTint="@color/btn"
-                android:background="@drawable/ic_baseline_play_arrow_24" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_next"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_margin="@dimen/_5sdp"
-                app:backgroundTint="@color/btn"
-                android:background="@drawable/ic_baseline_skip_next_24" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_seek_forward"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_margin="@dimen/_5sdp"
-                app:backgroundTint="@color/btn"
-                android:background="@drawable/ic_baseline_forward_5_24" />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
+            android:contentDescription="@string/coverimage" />
 
     </com.google.android.material.card.MaterialCardView>
 
-    <androidx.core.widget.ContentLoadingProgressBar
-        android:id="@+id/progress_horizontal"
+    <LinearLayout
+        android:id="@+id/btn_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/card_iv_music">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_seek_back"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:background="@drawable/ic_baseline_replay_5_24"
+            app:backgroundTint="@color/btn" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_previous"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_margin="@dimen/_10sdp"
+            android:background="@drawable/ic_baseline_skip_previous_24"
+            app:backgroundTint="@color/btn" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_paly_pause"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:background="@drawable/ic_baseline_play_arrow_24"
+            app:backgroundTint="@color/btn" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_next"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_margin="@dimen/_10sdp"
+            android:background="@drawable/ic_baseline_skip_next_24"
+            app:backgroundTint="@color/btn" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_seek_forward"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:background="@drawable/ic_baseline_forward_5_24"
+            app:backgroundTint="@color/btn" />
+
+    </LinearLayout>
+
+    <SeekBar
+        android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_20sdp"
         android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cv_btn" />
+        app:layout_constraintTop_toBottomOf="@id/btn_layout" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvCurTime"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:gravity="center"
+        android:text="@string/_00_00"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@id/seekBar"
+        app:layout_constraintTop_toBottomOf="@id/seekBar" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/tvSongDuration"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:gravity="center"
+        android:text="@string/_00_00"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@id/seekBar"
+        app:layout_constraintTop_toBottomOf="@id/seekBar" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_1"
