@@ -36,12 +36,14 @@ class SongsViewModel @ViewModelInject constructor(
 
     init {
         updateCurrentPlayerPosition()
+
+
     }
 
     fun getMusic(contentResolver: ContentResolver) {
         viewModelScope.launch(Dispatchers.IO) {
            val result = songRepository.getAllMusicFromStorage(contentResolver)
-
+            songRepository.getAllPlayFromStorage(contentResolver)
             songlist.postValue(songRepository.songList)
         }
 

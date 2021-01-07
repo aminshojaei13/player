@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.media.session.PlaybackStateCompat
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -178,6 +179,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
             }
         }
         songsViewModel.curSongDuration.observe(viewLifecycleOwner) {
+            Log.i("ding", "curSongDuration: $it")
             seekBar.max = it.toInt()
             val dateFormat = SimpleDateFormat("mm:ss", Locale.getDefault())
             tvSongDuration.text = dateFormat.format(it)

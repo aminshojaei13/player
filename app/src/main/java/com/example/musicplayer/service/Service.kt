@@ -3,14 +3,12 @@ package com.example.musicplayer.service
 import android.app.PendingIntent
 import android.content.Intent
 import android.media.browse.MediaBrowser
-import android.media.session.MediaSession
-import android.os.Build
 import android.os.Bundle
-import android.service.media.MediaBrowserService
+import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
 import android.support.v4.media.session.MediaSessionCompat
-import androidx.annotation.RequiresApi
+import androidx.media.MediaBrowserServiceCompat
 import com.example.musicplayer.exoplayer.MusicNotificationManager
 import com.example.musicplayer.exoplayer.MusicSource
 import com.example.musicplayer.exoplayer.callback.MusicPlaybackPreparer
@@ -32,7 +30,7 @@ private const val MEDIA_ROOT_ID = "root_id"
 private const val NETWORK_ERROR = "NETWORK_ERROR"
 
 @AndroidEntryPoint
-class MusicService : MediaBrowserService() {
+class MusicService : MediaBrowserServiceCompat() {
 
     @Inject
     lateinit var dataSourceFactory: DefaultDataSourceFactory
@@ -84,14 +82,14 @@ class MusicService : MediaBrowserService() {
         }
 
 
-        sessionToken = mediaSession.sessionToken.token as MediaSession.Token
+        sessionToken = mediaSession.sessionToken
 
         musicNotificationManager = MusicNotificationManager(
             this,
             mediaSession.sessionToken,
             MusicPlayerNotificationListener(this)
         ) {
-
+            curSongDuration = player.duration
         }
 
 
@@ -147,16 +145,23 @@ class MusicService : MediaBrowserService() {
         player.release()
     }
 
+    override fun onGetRoot(
+        clientPackageName: String,
+        clientUid: Int,
+        rootHints: Bundle?
+    ): BrowserRoot {
+        return BrowserRoot(MEDIA_ROOT_ID, null)
+    }
 
     override fun onLoadChildren(
         parentId: String,
-        result: Result<MutableList<MediaBrowser.MediaItem>>
+        result: Result<MutableList<MediaBrowserCompat.MediaItem>>
     ) {
         when (parentId) {
             MEDIA_ROOT_ID -> {
                 val resultsSent = musicSource.whenReady { isInitialized ->
                     if (isInitialized) {
-                        result.sendResult(musicSource.asMediaItems() as MutableList<MediaBrowser.MediaItem>)
+                        result.sendResult(musicSource.asMediaItems())
                         if (!isPlayerInitialized && musicSource.songs.isNotEmpty()) {
                             preparePlayer(
                                 musicSource.songs,
@@ -175,14 +180,6 @@ class MusicService : MediaBrowserService() {
                 }
             }
         }
-    }
-
-    override fun onGetRoot(
-        clientPackageName: String,
-        clientUid: Int,
-        rootHints: Bundle?
-    ): BrowserRoot {
-        return BrowserRoot(MEDIA_ROOT_ID, null)
     }
 }
 
