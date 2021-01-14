@@ -69,6 +69,10 @@ class HomeFragment : Fragment(), View.OnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSelectSongFragment())
         }
 
+        file.setOnClickListener {
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSongLibraryFragment())
+        }
+
         if (
             ContextCompat.checkSelfPermission(
                 requireContext(),
@@ -174,6 +178,7 @@ class HomeFragment : Fragment(), View.OnClickListener {
         }
         songsViewModel.curPlayerPosition.observe(viewLifecycleOwner) {
             if (shouldUpdateSeekbar) {
+                Log.i("gandi", "progress: $it")
                 seekBar.progress = it.toInt()
                 setCurPlayerTimeToTextView(it)
             }
@@ -181,14 +186,28 @@ class HomeFragment : Fragment(), View.OnClickListener {
         songsViewModel.curSongDuration.observe(viewLifecycleOwner) {
             Log.i("ding", "curSongDuration: $it")
             seekBar.max = it.toInt()
+
             val dateFormat = SimpleDateFormat("mm:ss", Locale.getDefault())
+            val aa = dateFormat.timeZone
+            Log.i("TAG", "subscribeToObservers: $aa")
             tvSongDuration.text = dateFormat.format(it)
         }
     }
 
     private fun setCurPlayerTimeToTextView(ms: Long) {
         val dateFormat = SimpleDateFormat("mm:ss", Locale.getDefault())
+//            dateFormat.timeZone = TimeZone.getTimeZone(tag)
         tvCurTime.text = dateFormat.format(ms)
     }
+
+//    fun getDate(milliSeconds: Long, dateFormat: String?): String? {
+////         Create a DateFormatter object for displaying date in specified format.
+//        val formatter = SimpleDateFormat(dateFormat)
+//
+////         Create a calendar object that will convert the date and time value in milliseconds to date.
+//        val calendar = Calendar.getInstance()
+//        calendar.timeInMillis = milliSeconds
+//        return formatter.format(calendar.time)
+//    }
 
 }

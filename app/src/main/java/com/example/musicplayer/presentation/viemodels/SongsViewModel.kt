@@ -31,6 +31,7 @@ class SongsViewModel @ViewModelInject constructor(
     val curPlayerPosition: LiveData<Long> = _curPlayerPosition
 
     var songlist = MutableLiveData<MutableList<SongInfo>>()
+    var recent = MutableLiveData<MutableList<SongInfo>>()
     val curPlayingSong = musicServiceConnection.curPlayingSong
     val playbackState = musicServiceConnection.playbackState
 
@@ -43,7 +44,6 @@ class SongsViewModel @ViewModelInject constructor(
     fun getMusic(contentResolver: ContentResolver) {
         viewModelScope.launch(Dispatchers.IO) {
            val result = songRepository.getAllMusicFromStorage(contentResolver)
-            songRepository.getAllPlayFromStorage(contentResolver)
             songlist.postValue(songRepository.songList)
         }
 
@@ -92,6 +92,23 @@ class SongsViewModel @ViewModelInject constructor(
                 }
                 delay(UPDATE_PLAYER_POSITION_INTERVAL)
             }
+        }
+    }
+
+    fun getRecentMusic(){
+        val weekSec = System.currentTimeMillis() - 1209600000
+        if (songlist != null) {
+            val prepareList = mutableListOf<SongInfo>()
+            songlist.value?.forEach {
+                if (it.create!! * 1000 > weekSec) {
+                    if (recent.value == null) {
+                        prepareList.add(it)
+                    }else if (recent.value!!.contains(it)) {
+                        prepareList.add(it)
+                    }
+                }
+            }
+            recent.postValue(prepareList)
         }
     }
 

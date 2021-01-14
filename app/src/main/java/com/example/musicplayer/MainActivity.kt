@@ -2,7 +2,6 @@ package com.example.musicplayer
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.mtechviral.mplaylib.MusicFinder
 import dagger.hilt.android.AndroidEntryPoint
 
 

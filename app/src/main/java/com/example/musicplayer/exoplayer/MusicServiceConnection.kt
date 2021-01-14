@@ -16,7 +16,6 @@ class MusicServiceConnection @Inject constructor(
     context: Context
 ) {
 
-
     private val _playbackState = MutableLiveData<PlaybackStateCompat?>()
     val playbackState: LiveData<PlaybackStateCompat?> = _playbackState
 

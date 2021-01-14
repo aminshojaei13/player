@@ -1,6 +1,7 @@
 package com.example.musicplayer.presentation.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,13 +10,16 @@ import androidx.fragment.app.activityViewModels
 import com.example.musicplayer.R
 import com.example.musicplayer.data.adapter.MySongAdapter
 import com.example.musicplayer.presentation.viemodels.SongsViewModel
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_playlist_song.*
+import java.sql.Time
+import java.sql.Timestamp
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
-@AndroidEntryPoint
-class SelectSongFragment : Fragment() {
 
-    // lateinit var songsViewModel: SongsViewModel
+class AllSongFragment : Fragment() {
+
     private val songsViewModel: SongsViewModel by activityViewModels()
 
     var mySongAdapter: MySongAdapter? = null
@@ -25,21 +29,14 @@ class SelectSongFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_playlist_song, container, false)
+        return inflater.inflate(R.layout.fragment_all_song, container, false)
     }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        //songsViewModel = ViewModelProvider(requireActivity()).get(SongsViewModel::class.java)
-
-        }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val value = songsViewModel.songlist.value
-        println("jalil 02 ${value?.size}")
+        songsViewModel.getRecentMusic()
 
         mySongAdapter =
             MySongAdapter(value!!) {
@@ -49,12 +46,20 @@ class SelectSongFragment : Fragment() {
             adapter = mySongAdapter
         }
 
-        /*mySongAdapter!!.setItemClickListener {
-            println("jalil ${it.title}")
-            songsViewModel.playOrToggleSong(it)
-        }*/
+
 
     }
 
+    fun getDate(milliSeconds: Long, dateFormat: String?): String? {
+        // Create a DateFormatter object for displaying date in specified format.
+        val formatter = SimpleDateFormat(dateFormat)
+
+        // Create a calendar object that will convert the date and time value in milliseconds to date.
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = milliSeconds
+        return formatter.format(calendar.time)
+    }
 
 }
+
+

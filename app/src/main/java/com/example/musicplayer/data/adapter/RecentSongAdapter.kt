@@ -9,10 +9,10 @@ import com.example.musicplayer.databinding.SongCardBinding
 import com.example.musicplayer.domain.SongInfo
 
 
-class MySongAdapter(
+class RecentSongAdapter(
     var myListSong: MutableList<SongInfo>,
     private val onSongClick: (song: SongInfo) -> Unit
-) : RecyclerView.Adapter<MySongAdapter.MyViewHolder>() {
+) : RecyclerView.Adapter<RecentSongAdapter.MyViewHolder>() {
 
     class MyViewHolder(var binding: SongCardBinding) : RecyclerView.ViewHolder(binding.root)
 

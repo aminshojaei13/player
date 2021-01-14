@@ -8,6 +8,7 @@ fun MediaMetadataCompat.toSong(): SongInfo? {
         SongInfo(
             it.mediaId,
             null,
+            null,
             it.title.toString(),
             it.description.toString(),
             it.mediaUri.toString(),

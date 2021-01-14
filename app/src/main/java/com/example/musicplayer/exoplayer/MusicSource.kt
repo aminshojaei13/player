@@ -2,12 +2,10 @@ package com.example.musicplayer.exoplayer
 
 import android.content.ContentResolver
 import android.media.MediaMetadata.*
-import android.os.Build
 import android.support.v4.media.MediaBrowserCompat
 import android.support.v4.media.MediaBrowserCompat.MediaItem.FLAG_PLAYABLE
 import android.support.v4.media.MediaDescriptionCompat
 import android.support.v4.media.MediaMetadataCompat
-import androidx.annotation.RequiresApi
 import androidx.core.net.toUri
 import com.example.musicplayer.data.repository.SongRepository
 import com.example.musicplayer.exoplayer.State.*

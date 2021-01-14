@@ -1,11 +1,6 @@
 package com.example.musicplayer.di
 
-import android.app.Activity
-import android.content.ContentResolver
 import android.content.Context
-import com.example.musicplayer.MainActivity
-import com.example.musicplayer.data.repository.SongRepository
-import com.example.musicplayer.exoplayer.MusicServiceConnection
 import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.audio.AudioAttributes
@@ -17,7 +12,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ServiceComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ServiceScoped
-import javax.inject.Singleton
 
 
 @Module

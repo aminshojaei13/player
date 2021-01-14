@@ -13,6 +13,7 @@ import com.example.musicplayer.R
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 
+
 private const val NOTIFICATION_CHANNEL_ID = "music"
 private const val NOTIFICATION_ID = 1
 
